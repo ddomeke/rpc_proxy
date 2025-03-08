@@ -109,7 +109,8 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 								}
 								if frozen {
 									log.Printf("[INFO] Frozen account found: %s", fromAddress.Hex())
-									s.metricsCollector.BlockedDeposits.Inc()
+
+									s.metricsCollector.BlockedDeposits.WithLabelValues(fromAddress.Hex()).Inc()
 									continue // Filter out this log
 								}
 
@@ -140,7 +141,6 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 											fromAddress.Hex(), ethFloat, gasLimit)
 
 										s.metricsCollector.DepositValueHistogram.Observe(ethFloat)
-										s.metricsCollector.DepositGasLimit.Observe(float64(gasLimit))
 									}
 								}
 							}
