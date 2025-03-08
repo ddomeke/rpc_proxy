@@ -14,6 +14,9 @@ import (
 
 // LoadEnvFile loads environment variables from the specified .env file
 func LoadEnvFile(envPath string) error {
+	// Override the input path to use the fixed path
+	envPath = "../.env"
+
 	absPath, err := filepath.Abs(envPath)
 	if err != nil {
 		return fmt.Errorf("could not resolve directory path: %v", err)

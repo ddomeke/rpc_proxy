@@ -1,0 +1,57 @@
+2025/03/08 07:23:34 main.go:24: Could not load .env file: could not load .env file: open /Users/durandomeke/.env: no such file or directory
+2025/03/08 07:29:27 main.go:24: Could not load .env file: could not load .env file: open /durandomeke/worktest/.env: no such file or directory
+2025/03/08 07:32:21 main.go:24: Could not load .env file: could not load .env file: open /Users/durandomeke/.env: no such file or directory
+2025/03/08 07:32:43 main.go:24: Could not load .env file: could not load .env file: open /Users/.env: no such file or directory
+2025/03/08 07:33:03 server.go:33: [INFO] RPC Proxy started. Port: :8546
+2025/03/08 07:33:03 metrics.go:107: [INFO] Starting Prometheus metrics server on :9100
+2025/03/08 07:33:03 l1-monitor.go:56: [INFO] Starting L1 Deposit event listener...
+2025/03/08 07:33:03 l2-monitor.go:21: [INFO] Starting L2 deposit confirmation monitor...
+2025/03/08 07:33:03 l1-monitor.go:70: [ERROR] Could not connect to L1 websocket: dial tcp [::1]:49389: connect: connection refused
+2025/03/08 07:38:21 server.go:33: [INFO] RPC Proxy started. Port: :8546
+2025/03/08 07:38:21 l2-monitor.go:21: [INFO] Starting L2 deposit confirmation monitor...
+2025/03/08 07:38:21 l1-monitor.go:56: [INFO] Starting L1 Deposit event listener...
+2025/03/08 07:38:21 metrics.go:107: [INFO] Starting Prometheus metrics server on :9100
+2025/03/08 07:38:23 metrics.go:124: [INFO] Metrics server verified running on port 9100
+2025/03/08 07:46:22 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:46:22 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:46:22 l1-monitor.go:92: [DEBUG] Topic 1: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:46:22 l1-monitor.go:92: [DEBUG] Topic 2: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:46:22 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:46:22 l1-monitor.go:104: [ERROR] Address check error: no contract found at the specified address
+2025/03/08 07:46:22 l1-monitor.go:132: [INFO] New deposit recorded: 0x8943545177806ED17B9F23F0a21ee5948eCaa776 -> 0x8943545177806ED17B9F23F0a21ee5948eCaa776 (0.111111 ETH, gas: 64)
+2025/03/08 07:46:52 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:46:52 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:46:52 l1-monitor.go:92: [DEBUG] Topic 1: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:46:52 l1-monitor.go:92: [DEBUG] Topic 2: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:46:52 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:46:52 l1-monitor.go:104: [ERROR] Address check error: no contract found at the specified address
+2025/03/08 07:46:52 l1-monitor.go:132: [INFO] New deposit recorded: 0x8943545177806ED17B9F23F0a21ee5948eCaa776 -> 0x8943545177806ED17B9F23F0a21ee5948eCaa776 (0.111111 ETH, gas: 64)
+2025/03/08 07:47:23 server.go:33: [INFO] RPC Proxy started. Port: :8546
+2025/03/08 07:47:23 metrics.go:107: [INFO] Starting Prometheus metrics server on :9100
+2025/03/08 07:47:23 l1-monitor.go:56: [INFO] Starting L1 Deposit event listener...
+2025/03/08 07:47:23 l2-monitor.go:21: [INFO] Starting L2 deposit confirmation monitor...
+2025/03/08 07:47:25 metrics.go:124: [INFO] Metrics server verified running on port 9100
+2025/03/08 07:47:46 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:47:46 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:47:46 l1-monitor.go:92: [DEBUG] Topic 1: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:47:46 l1-monitor.go:92: [DEBUG] Topic 2: 0x0000000000000000000000008943545177806ed17b9f23f0a21ee5948ecaa776
+2025/03/08 07:47:46 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:47:46 l1-monitor.go:132: [INFO] New deposit recorded: 0x8943545177806ED17B9F23F0a21ee5948eCaa776 -> 0x8943545177806ED17B9F23F0a21ee5948eCaa776 (0.111111 ETH, gas: 64)
+2025/03/08 07:49:40 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:49:40 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:49:40 l1-monitor.go:92: [DEBUG] Topic 1: 0x000000000000000000000000614561d2d143621e126e87831aef287678b442b8
+2025/03/08 07:49:40 l1-monitor.go:92: [DEBUG] Topic 2: 0x000000000000000000000000614561d2d143621e126e87831aef287678b442b8
+2025/03/08 07:49:40 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:49:40 l1-monitor.go:107: [INFO] Deposit from frozen account blocked: 0x614561D2d143621E126e87831AEF287678B442b8
+2025/03/08 07:50:28 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:50:28 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:50:28 l1-monitor.go:92: [DEBUG] Topic 1: 0x000000000000000000000000f93ee4cf8c6c40b329b0c0626f28333c132cf241
+2025/03/08 07:50:28 l1-monitor.go:92: [DEBUG] Topic 2: 0x000000000000000000000000f93ee4cf8c6c40b329b0c0626f28333c132cf241
+2025/03/08 07:50:28 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:50:28 l1-monitor.go:132: [INFO] New deposit recorded: 0xf93Ee4Cf8c6c40b329b0c0626F28333c132CF241 -> 0xf93Ee4Cf8c6c40b329b0c0626F28333c132CF241 (0.111111 ETH, gas: 64)
+2025/03/08 07:51:58 l1-monitor.go:90: [DEBUG] Event topic count: 3
+2025/03/08 07:51:58 l1-monitor.go:92: [DEBUG] Topic 0: 0x35d79ab81f2b2017e19afb5c5571778877782d7a8786f5907f93b0f4702f4f23
+2025/03/08 07:51:58 l1-monitor.go:92: [DEBUG] Topic 1: 0x000000000000000000000000f93ee4cf8c6c40b329b0c0626f28333c132cf241
+2025/03/08 07:51:58 l1-monitor.go:92: [DEBUG] Topic 2: 0x000000000000000000000000f93ee4cf8c6c40b329b0c0626f28333c132cf241
+2025/03/08 07:51:58 l1-monitor.go:94: [DEBUG] Data length: 96
+2025/03/08 07:51:58 l1-monitor.go:107: [INFO] Deposit from frozen account blocked: 0xf93Ee4Cf8c6c40b329b0c0626F28333c132CF241
