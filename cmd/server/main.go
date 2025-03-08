@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"path/filepath"
 
 	"github.com/ddomeke/rpc_proxy/internal/config"
 	"github.com/ddomeke/rpc_proxy/internal/eth"
@@ -18,7 +17,7 @@ func main() {
 	defer logFile.Close()
 
 	// Load environment variables
-	envPath := filepath.Join("..", "..", ".env")
+	envPath := "../.env"
 	err := utils.LoadEnvFile(envPath)
 	if err != nil {
 		log.Fatalf("Could not load .env file: %v", err)

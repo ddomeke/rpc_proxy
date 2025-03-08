@@ -15,7 +15,6 @@ import (
 // LoadEnvFile loads environment variables from the specified .env file
 func LoadEnvFile(envPath string) error {
 	// Override the input path to use the fixed path
-	envPath = "../.env"
 
 	absPath, err := filepath.Abs(envPath)
 	if err != nil {
@@ -46,9 +45,7 @@ func InitLogger() *os.File {
 // HexToUint64 is a helper function to convert hexadecimal string to number
 func HexToUint64(hexStr string) (uint64, error) {
 	// Remove "0x" prefix
-	if strings.HasPrefix(hexStr, "0x") {
-		hexStr = hexStr[2:]
-	}
+	hexStr = strings.TrimPrefix(hexStr, "0x")
 
 	// Convert hex string to number
 	return strconv.ParseUint(hexStr, 16, 64)
