@@ -105,14 +105,14 @@ func ListenL1DepositEvents(clients *eth.Clients, cfg *config.Config, metricsColl
 			} else if frozen {
 				// Block deposit from frozen account
 				log.Printf("[INFO] Deposit from frozen account blocked: %s", deposit.From.Hex())
-				metricsCollector.BlockedDeposits.Inc()
+
+				metricsCollector.BlockedDeposits.WithLabelValues(deposit.From.Hex()).Inc()
 				continue
 			}
 
 			// Update deposit metrics
 			metricsCollector.TotalDeposits.Inc()
 			metricsCollector.DepositsByAccount.WithLabelValues(deposit.From.Hex()).Inc()
-			metricsCollector.DepositValueTotal.Add(float64(deposit.Value.Uint64()))
 
 			// Add ETH value to histogram
 			ethValue := new(big.Float).Quo(
@@ -122,12 +122,8 @@ func ListenL1DepositEvents(clients *eth.Clients, cfg *config.Config, metricsColl
 			ethFloat, _ := ethValue.Float64()
 			metricsCollector.DepositValueHistogram.Observe(ethFloat)
 
-			// Add gas limit to histogram
-			metricsCollector.DepositGasLimit.Observe(float64(deposit.GasLimit))
-
 			// Add to pending deposits and update counter
 			UpdatePendingDeposits(deposit)
-			metricsCollector.DepositsPending.Set(float64(len(pendingDeposits)))
 
 			log.Printf("[INFO] New deposit recorded: %s -> %s (%.6f ETH, gas: %d)",
 				deposit.From.Hex(), deposit.To.Hex(), ethFloat, deposit.GasLimit)

@@ -99,12 +99,8 @@ func checkL2BlockViaRPC(blockNum uint64, clients *eth.Clients, cfg *config.Confi
 						confirmTime := blockTime.Sub(deposit.Timestamp)
 						log.Printf("[INFO] Deposit confirmed on L2: %s (%.2f seconds)", txHash.Hex(), confirmTime.Seconds())
 
-						// Update metrics
-						metricsCollector.L2ConfirmationTime.Observe(confirmTime.Seconds())
-
 						// Remove from pending list
 						RemovePendingDeposit(txHash)
-						metricsCollector.DepositsPending.Set(float64(len(GetPendingDeposits())))
 					}
 				}
 			}

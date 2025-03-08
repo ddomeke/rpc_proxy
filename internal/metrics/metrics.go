@@ -14,17 +14,10 @@ import (
 // Collector holds all the Prometheus metrics
 type Collector struct {
 	// Current metrics
-	TotalDeposits  prometheus.Counter
-	BlockedDeposits prometheus.Counter
-	DepositLatency prometheus.Histogram
-
-	// New metrics
-	DepositValueTotal    prometheus.Counter
-	DepositsByAccount    *prometheus.CounterVec
-	DepositGasLimit      prometheus.Histogram
+	TotalDeposits         prometheus.Counter
+	BlockedDeposits       *prometheus.CounterVec
+	DepositsByAccount     *prometheus.CounterVec
 	DepositValueHistogram prometheus.Histogram
-	L2ConfirmationTime   prometheus.Histogram
-	DepositsPending      prometheus.Gauge
 }
 
 // NewCollector creates a new metrics collector with initialized metrics
@@ -36,24 +29,12 @@ func NewCollector() *Collector {
 				Help: "Total number of deposits through OptimismPortal",
 			}),
 
-		BlockedDeposits: promauto.NewCounter(
+		BlockedDeposits: promauto.NewCounterVec(
 			prometheus.CounterOpts{
 				Name: "opstack_blocked_deposits",
 				Help: "Total number of blocked deposits from frozen accounts",
-			}),
-
-		DepositLatency: promauto.NewHistogram(
-			prometheus.HistogramOpts{
-				Name:    "opstack_deposit_latency",
-				Help:    "Time taken for a deposit to reach L2",
-				Buckets: prometheus.LinearBuckets(1, 1, 10), // 1s to 10s buckets
-			}),
-
-		DepositValueTotal: promauto.NewCounter(
-			prometheus.CounterOpts{
-				Name: "opstack_deposit_value_total",
-				Help: "Total ETH value of all deposits in wei",
-			}),
+			},
+			[]string{"account"}),
 
 		DepositsByAccount: promauto.NewCounterVec(
 			prometheus.CounterOpts{
@@ -62,31 +43,11 @@ func NewCollector() *Collector {
 			},
 			[]string{"account"}),
 
-		DepositGasLimit: promauto.NewHistogram(
-			prometheus.HistogramOpts{
-				Name:    "opstack_deposit_gas_limit",
-				Help:    "Distribution of gas limits for deposits",
-				Buckets: prometheus.ExponentialBuckets(100000, 2, 10), // Starting from 100k gas
-			}),
-
 		DepositValueHistogram: promauto.NewHistogram(
 			prometheus.HistogramOpts{
 				Name:    "opstack_deposit_value",
 				Help:    "Distribution of deposit values in ETH",
 				Buckets: prometheus.ExponentialBuckets(0.001, 10, 7), // 0.001 ETH to 1000 ETH
-			}),
-
-		L2ConfirmationTime: promauto.NewHistogram(
-			prometheus.HistogramOpts{
-				Name:    "opstack_l2_deposit_confirmation_time",
-				Help:    "Time taken for deposits to be confirmed on L2",
-				Buckets: prometheus.LinearBuckets(5, 5, 12), // 5s to 60s
-			}),
-
-		DepositsPending: promauto.NewGauge(
-			prometheus.GaugeOpts{
-				Name: "opstack_deposits_pending",
-				Help: "Number of deposits waiting for L2 confirmation",
 			}),
 	}
 }
