@@ -6,19 +6,19 @@ import (
 	"net/http"
 
 	"github.com/ddomeke/rpc_proxy/internal/config"
-	"github.com/ddomeke/rpc_proxy/internal/ethereum"
+	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ddomeke/rpc_proxy/internal/metrics"
 )
 
 // Server holds the RPC proxy server configuration
 type Server struct {
 	config           *config.Config
-	ethClients       *ethereum.Clients
+	ethClients       *eth.Clients
 	metricsCollector *metrics.Collector
 }
 
 // NewServer creates a new RPC proxy server
-func NewServer(cfg *config.Config, clients *ethereum.Clients, collector *metrics.Collector) *Server {
+func NewServer(cfg *config.Config, clients *eth.Clients, collector *metrics.Collector) *Server {
 	return &Server{
 		config:           cfg,
 		ethClients:       clients,

@@ -10,14 +10,14 @@ import (
 	"time"
 
 	"github.com/ddomeke/rpc_proxy/internal/config"
-	"github.com/ddomeke/rpc_proxy/internal/ethereum"
+	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ddomeke/rpc_proxy/internal/metrics"
 	"github.com/ddomeke/rpc_proxy/pkg/utils"
 	"github.com/ethereum/go-ethereum/common"
 )
 
 // MonitorL2Deposits monitors transactions on L2 and matches deposits
-func MonitorL2Deposits(clients *ethereum.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
+func MonitorL2Deposits(clients *eth.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
 	log.Println("[INFO] Starting L2 deposit confirmation monitor...")
 
 	// Last checked block
@@ -46,7 +46,7 @@ func MonitorL2Deposits(clients *ethereum.Clients, cfg *config.Config, metricsCol
 }
 
 // checkL2BlockViaRPC checks L2 block (using HTTP RPC)
-func checkL2BlockViaRPC(blockNum uint64, clients *ethereum.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
+func checkL2BlockViaRPC(blockNum uint64, clients *eth.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
 	// Create JSON-RPC request
 	blockNumHex := fmt.Sprintf("0x%x", blockNum)
 	rpcRequest := map[string]interface{}{

@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"net/http"
 
-	"github.com/ddomeke/rpc_proxy/internal/ethereum"
+	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 )
@@ -102,7 +102,7 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 								fromAddrHex := topics[1].(string)
 								fromAddress := common.HexToAddress(fromAddrHex)
 
-								frozen, err := ethereum.CheckIfAddressIsFrozen(s.config, fromAddress.Hex())
+								frozen, err := eth.CheckIfAddressIsFrozen(s.config, fromAddress.Hex())
 								if err != nil {
 									log.Printf("[ERROR] Frozen address check error: %v", err)
 									continue

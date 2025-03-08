@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/ddomeke/rpc_proxy/internal/config"
-	"github.com/ddomeke/rpc_proxy/internal/ethereum"
+	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ddomeke/rpc_proxy/internal/metrics"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
@@ -20,17 +20,17 @@ const retryDelay = 5 * time.Second // Retry delay in case of errors
 
 // Global deposit tracking
 var (
-	pendingDeposits      = make(map[common.Hash]*ethereum.DepositEvent)
+	pendingDeposits      = make(map[common.Hash]*eth.DepositEvent)
 	pendingDepositsMutex sync.RWMutex
 )
 
 // GetPendingDeposits returns a copy of the current pending deposits map
-func GetPendingDeposits() map[common.Hash]*ethereum.DepositEvent {
+func GetPendingDeposits() map[common.Hash]*eth.DepositEvent {
 	pendingDepositsMutex.RLock()
 	defer pendingDepositsMutex.RUnlock()
 
 	// Create a copy to avoid concurrent access issues
-	result := make(map[common.Hash]*ethereum.DepositEvent)
+	result := make(map[common.Hash]*eth.DepositEvent)
 	for k, v := range pendingDeposits {
 		result[k] = v
 	}
@@ -38,7 +38,7 @@ func GetPendingDeposits() map[common.Hash]*ethereum.DepositEvent {
 }
 
 // UpdatePendingDeposits adds a deposit to pending deposits
-func UpdatePendingDeposits(deposit *ethereum.DepositEvent) {
+func UpdatePendingDeposits(deposit *eth.DepositEvent) {
 	pendingDepositsMutex.Lock()
 	defer pendingDepositsMutex.Unlock()
 	pendingDeposits[deposit.Hash] = deposit
@@ -52,7 +52,7 @@ func RemovePendingDeposit(hash common.Hash) {
 }
 
 // ListenL1DepositEvents listens for deposit events on L1
-func ListenL1DepositEvents(clients *ethereum.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
+func ListenL1DepositEvents(clients *eth.Clients, cfg *config.Config, metricsCollector *metrics.Collector) {
 	log.Println("[INFO] Starting L1 Deposit event listener...")
 
 	// Listen for TransactionDeposited events at the OptimismPortal address
@@ -85,7 +85,7 @@ func ListenL1DepositEvents(clients *ethereum.Clients, cfg *config.Config, metric
 			return
 		case logEntry := <-logs:
 			// Decode TransactionDeposited event
-			deposit, err := ethereum.DecodeDepositEvent(clients, logEntry)
+			deposit, err := eth.DecodeDepositEvent(clients, logEntry)
 
 			log.Printf("[DEBUG] Event topic count: %d", len(logEntry.Topics))
 			for i, topic := range logEntry.Topics {
@@ -99,7 +99,7 @@ func ListenL1DepositEvents(clients *ethereum.Clients, cfg *config.Config, metric
 			}
 
 			// Check if address is frozen
-			frozen, err := ethereum.CheckIfAddressIsFrozen(cfg, deposit.From.Hex())
+			frozen, err := eth.CheckIfAddressIsFrozen(cfg, deposit.From.Hex())
 			if err != nil {
 				log.Printf("[ERROR] Address check error: %v", err)
 			} else if frozen {

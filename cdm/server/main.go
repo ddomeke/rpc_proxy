@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/ddomeke/rpc_proxy/internal/config"
-	"github.com/ddomeke/rpc_proxy/internal/ethereum"
+	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ddomeke/rpc_proxy/internal/metrics"
 	"github.com/ddomeke/rpc_proxy/internal/monitor"
 	"github.com/ddomeke/rpc_proxy/internal/proxy"
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	// Initialize Ethereum clients
-	ethClients, err := ethereum.InitClients(cfg)
+	ethClients, err := eth.InitClients(cfg)
 	if err != nil {
 		log.Fatalf("[ERROR] Could not initialize clients: %v", err)
 	}
