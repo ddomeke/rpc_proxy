@@ -55,7 +55,6 @@ func (s *Server) proxyHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("[INFO] JSON-RPC request successfully forwarded")
 }
 
-// blockReceiptsHandler handles eth_getBlockReceipts special processing
 func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 	log.Println("[INFO] Processing eth_getBlockReceipts request...")
 
@@ -92,6 +91,7 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 				filteredLogs := []interface{}{}
 				for _, logEntry := range logs {
 					logMap := logEntry.(map[string]interface{})
+					shouldIncludeLog := true
 
 					// If event is TransactionDeposited, check from address
 					if logMap["topics"] != nil {
@@ -105,48 +105,49 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 								frozen, err := eth.CheckIfAddressIsFrozen(s.config, fromAddress.Hex())
 								if err != nil {
 									log.Printf("[ERROR] Frozen address check error: %v", err)
-									continue
-								}
-								if frozen {
+								} else if frozen {
 									log.Printf("[INFO] Frozen account found: %s", fromAddress.Hex())
-
 									s.metricsCollector.BlockedDeposits.WithLabelValues(fromAddress.Hex()).Inc()
-									continue // Filter out this log
-								}
+									shouldIncludeLog = false // Mark this log to be filtered out
+								} else {
+									// Decode TransactionDeposited event data (only for non-frozen accounts)
+									if blockNumberHex, ok := logMap["blockNumber"].(string); ok {
+										_, _ = hexutil.DecodeUint64(blockNumberHex)
 
-								// Decode TransactionDeposited event data
-								if blockNumberHex, ok := logMap["blockNumber"].(string); ok {
-									_, _ = hexutil.DecodeUint64(blockNumberHex)
+										// Decode log data
+										data, _ := hexutil.Decode(logMap["data"].(string))
 
-									// Decode log data
-									data, _ := hexutil.Decode(logMap["data"].(string))
+										var value *big.Int
+										var gasLimit uint64
 
-									var value *big.Int
-									var gasLimit uint64
+										// Simplified data decoding (full decode possible)
+										if len(data) >= 96 { // At least 3 32-byte parameters
+											value = new(big.Int).SetBytes(data[0:32])
+											gasLimitBytes := data[32:64]
+											gasLimit = new(big.Int).SetBytes(gasLimitBytes).Uint64()
 
-									// Simplified data decoding (full decode possible)
-									if len(data) >= 96 { // At least 3 32-byte parameters
-										value = new(big.Int).SetBytes(data[0:32])
-										gasLimitBytes := data[32:64]
-										gasLimit = new(big.Int).SetBytes(gasLimitBytes).Uint64()
+											// Update metrics
+											ethValue := new(big.Float).Quo(
+												new(big.Float).SetInt(value),
+												new(big.Float).SetInt64(1e18),
+											)
+											ethFloat, _ := ethValue.Float64()
 
-										// Update metrics
-										ethValue := new(big.Float).Quo(
-											new(big.Float).SetInt(value),
-											new(big.Float).SetInt64(1e18),
-										)
-										ethFloat, _ := ethValue.Float64()
+											log.Printf("[INFO] Deposit monitored: %s -> Value: %.6f ETH, Gas: %d",
+												fromAddress.Hex(), ethFloat, gasLimit)
 
-										log.Printf("[INFO] Deposit monitored: %s -> Value: %.6f ETH, Gas: %d",
-											fromAddress.Hex(), ethFloat, gasLimit)
-
-										s.metricsCollector.DepositValueHistogram.Observe(ethFloat)
+											s.metricsCollector.DepositValueHistogram.Observe(ethFloat)
+										}
 									}
 								}
 							}
 						}
 					}
-					filteredLogs = append(filteredLogs, logMap)
+
+					// Add log to filtered logs only if it should be included
+					if shouldIncludeLog {
+						filteredLogs = append(filteredLogs, logMap)
+					}
 				}
 				txMap["logs"] = filteredLogs
 			}
