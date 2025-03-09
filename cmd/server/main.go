@@ -6,7 +6,6 @@ import (
 	"github.com/ddomeke/rpc_proxy/internal/config"
 	"github.com/ddomeke/rpc_proxy/internal/eth"
 	"github.com/ddomeke/rpc_proxy/internal/metrics"
-	"github.com/ddomeke/rpc_proxy/internal/monitor"
 	"github.com/ddomeke/rpc_proxy/internal/proxy"
 	"github.com/ddomeke/rpc_proxy/pkg/utils"
 )
@@ -42,10 +41,10 @@ func main() {
 	go metrics.StartServer(cfg.MetricsPort)
 
 	// Start listening for L1 deposit events
-	go monitor.ListenL1DepositEvents(ethClients, cfg, metricsCollector)
+	//go monitor.ListenL1DepositEvents(ethClients, cfg, metricsCollector)
 
 	// Monitor L2 deposit confirmations
-	go monitor.MonitorL2Deposits(ethClients, cfg, metricsCollector)
+	//go monitor.MonitorL2Deposits(ethClients, cfg, metricsCollector)
 
 	// Start JSON-RPC Proxy
 	proxyServer := proxy.NewServer(cfg, ethClients, metricsCollector)

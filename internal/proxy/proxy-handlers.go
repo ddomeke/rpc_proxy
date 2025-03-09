@@ -157,5 +157,4 @@ func (s *Server) blockReceiptsHandler(w http.ResponseWriter, body []byte) {
 	filteredResponse, _ := json.Marshal(jsonResponse)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(filteredResponse)
-	log.Println("[INFO] Frozen accounts filtered and response forwarded.")
 }
