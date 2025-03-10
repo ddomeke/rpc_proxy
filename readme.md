@@ -78,13 +78,8 @@ The service exposes the following Prometheus metrics on http://localhost:{METRIC
 |--------|-------------|
 | opstack_total_deposits | Total number of deposits through OptimismPortal |
 | opstack_blocked_deposits | Total number of blocked deposits from frozen accounts |
-| opstack_deposit_latency | Time taken for a deposit to reach L2 |
 | opstack_deposit_value_total | Total ETH value of all deposits in wei |
 | opstack_deposits_by_account | Number of deposits grouped by sender account |
-| opstack_deposit_gas_limit | Distribution of gas limits for deposits |
-| opstack_deposit_value | Distribution of deposit values in ETH |
-| opstack_l2_deposit_confirmation_time | Time taken for deposits to be confirmed on L2 |
-| opstack_deposits_pending | Number of deposits waiting for L2 confirmation |
 
 ## Usage
 
